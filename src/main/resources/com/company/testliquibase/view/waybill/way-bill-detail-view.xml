@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      title="msg://wayBillDetailView.title"
+      focusComponent="form">
+    <data>
+        <instance id="wayBillDc"
+                  class="com.company.testliquibase.entity.WayBill">
+            <fetchPlan extends="_base">
+                <property name="creator" fetchPlan="_base"/>
+                <property name="shipper" fetchPlan="_base"/>
+                <property name="consignee" fetchPlan="_base"/>
+                <property name="departurePort" fetchPlan="_base"/>
+                <property name="destinationPort" fetchPlan="_base"/>
+                <property name="carrier" fetchPlan="_base"/>
+                <property name="items" fetchPlan="_base"/>
+            </fetchPlan>
+            <loader/>
+            <collection id="itemsDc" property="items"/>
+        </instance>
+        <collection id="customerDc" class="com.company.testliquibase.entity.Customer">
+            <fetchPlan extends="_base"/>
+            <loader id="customerDl">
+                <query>
+                    <![CDATA[select e from st_Customer e]]>
+                </query>
+            </loader>
+        </collection>
+
+        <collection id="companyDc" class="com.company.testliquibase.entity.Company">
+            <fetchPlan extends="_base"/>
+            <loader id="companyDl">
+                <query>
+                    <![CDATA[select e from st_Company e]]>
+                </query>
+            </loader>
+        </collection>
+        <collection id="individualDc" class="com.company.testliquibase.entity.Individual">
+            <fetchPlan extends="_base"/>
+            <loader id="individualDl">
+                <query>
+                    <![CDATA[select e from st_Individual e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+    </facets>
+    <actions>
+        <action id="saveAction" type="detail_saveClose"/>
+        <action id="closeAction" type="detail_close"/>
+    </actions>
+    <layout>
+        <formLayout id="form" dataContainer="wayBillDc">
+            <textField id="refernceField" property="refernce"/>
+            <entityPicker id="creatorField" property="creator">
+                <actions>
+                    <action id="entityLookup" type="entity_lookup"/>
+                    <action id="entityClear" type="entity_clear"/>
+                </actions>
+            </entityPicker>
+            <entityComboBox id="shipperComboBox" dataContainer="wayBillDc" property="shipper"/>
+            <radioButtonGroup id="shippersChange"/>
+            <entityPicker id="consigneeField" dataContainer="wayBillDc" property="consignee" >
+                <actions>
+                    <action id="entityLookup" type="entity_lookup" />
+                    <action id="entityClear" type="entity_clear"/>
+                </actions>
+            </entityPicker>
+            <radioButtonGroup id="consigneeChange" />
+            <entityPicker id="departurePortField" property="departurePort">
+                <actions>
+                    <action id="entityLookup" type="entity_lookup"/>
+                    <action id="entityClear" type="entity_clear"/>
+                </actions>
+            </entityPicker>
+            <entityPicker id="destinationPortField" property="destinationPort">
+                <actions>
+                    <action id="entityLookup" type="entity_lookup"/>
+                    <action id="entityClear" type="entity_clear"/>
+                </actions>
+            </entityPicker>
+            <entityPicker id="carrierField" property="carrier">
+                <actions>
+                    <action id="entityLookup" type="entity_lookup"/>
+                    <action id="entityClear" type="entity_clear"/>
+                </actions>
+            </entityPicker>
+            <textField id="totalWeightField" property="totalWeight"/>
+            <textField id="totalChargeField" property="totalCharge"/>
+        </formLayout>
+        <hbox id="buttonsPanel" classNames="buttons-panel">
+            <button action="itemsDataGrid.create"/>
+            <button action="itemsDataGrid.edit"/>
+            <button action="itemsDataGrid.remove"/>
+        </hbox>
+        <dataGrid id="itemsDataGrid" dataContainer="itemsDc" width="100%" minHeight="20em">
+            <actions>
+                <action id="create" type="list_create">
+                    <properties>
+                        <property name="openMode" value="DIALOG"/>
+                    </properties>
+                </action>
+                <action id="edit" type="list_edit">
+                    <properties>
+                        <property name="openMode" value="DIALOG"/>
+                    </properties>
+                </action>
+                <action id="remove" type="list_remove"/>
+            </actions>
+            <columns>
+                <column property="name"/>
+                <column property="num"/>
+                <column property="weight"/>
+                <column property="charge"/>
+            </columns>
+        </dataGrid>
+        <hbox id="detailActions">
+            <button id="saveAndCloseBtn" action="saveAction"/>
+            <button id="closeBtn" action="closeAction"/>
+        </hbox>
+    </layout>
+</view>

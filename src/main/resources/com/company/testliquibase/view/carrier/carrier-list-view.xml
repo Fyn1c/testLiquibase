@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      xmlns:c="http://jmix.io/schema/flowui/jpql-condition"
+      title="msg://carrierListView.title"
+      focusComponent="carriersDataGrid">
+    <data readOnly="true">
+        <collection id="carriersDc"
+                    class="com.company.testliquibase.entity.Carrier">
+            <fetchPlan extends="_base">
+                <property name="spacePorts" fetchPlan="_base">
+                    <property name="planet" fetchPlan="_base">
+                        <property name="atmosphere" fetchPlan="_base"/>
+                    </property>
+                    <property name="moon" fetchPlan="_base">
+                        <property name="atmosphere" fetchPlan="_base"/>
+                    </property>
+                    <property name="coordinates" fetchPlan="_base"/>
+                    <property name="carriers" fetchPlan="_base"/>
+                </property>
+            </fetchPlan>
+            <loader id="carriersDl">
+                <query>
+                    <![CDATA[select e from st_Carrier e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+        <urlQueryParameters>
+            <genericFilter component="genericFilter"/>
+            <pagination component="pagination"/>
+        </urlQueryParameters>
+    </facets>
+    <actions>
+        <action id="selectAction" type="lookup_select"/>
+        <action id="discardAction" type="lookup_discard"/>
+    </actions>
+    <layout>
+        <genericFilter id="genericFilter"
+                       dataLoader="carriersDl">
+            <properties include=".*"/>
+        </genericFilter>
+        <hbox id="buttonsPanel" classNames="buttons-panel">
+            <button id="createBtn" action="carriersDataGrid.create"/>
+            <button id="editBtn" action="carriersDataGrid.edit"/>
+            <button id="removeBtn" action="carriersDataGrid.remove"/>
+            <simplePagination id="pagination" dataLoader="carriersDl"/>
+        </hbox>
+        <dataGrid id="carriersDataGrid"
+                  width="100%"
+                  minHeight="20em"
+                  dataContainer="carriersDc">
+            <actions>
+                <action id="create" type="list_create"/>
+                <action id="edit" type="list_edit"/>
+                <action id="remove" type="list_remove"/>
+            </actions>
+            <columns>
+                <column property="name"/>
+            </columns>
+        </dataGrid>
+        <hbox id="lookupActions" visible="false">
+            <button id="selectBtn" action="selectAction"/>
+            <button id="discardBtn" action="discardAction"/>
+        </hbox>
+    </layout>
+</view>

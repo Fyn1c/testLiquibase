@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      title="msg://wayBillItemDetailView.title"
+      focusComponent="form">
+    <data>
+        <instance id="wayBillItemDc"
+                  class="com.company.testliquibase.entity.WayBillItem">
+            <fetchPlan extends="_base">
+                <property name="dim" fetchPlan="_base"/>
+                <property name="wayBill" fetchPlan="_base"/>
+            </fetchPlan>
+            <loader/>
+        </instance>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+    </facets>
+    <actions>
+        <action id="saveAction" type="detail_saveClose"/>
+        <action id="closeAction" type="detail_close"/>
+    </actions>
+    <layout>
+        <formLayout id="form" dataContainer="wayBillItemDc">
+            <textField id="nameField" property="name"/>
+            <textField id="numField" property="num"/>
+            <textField id="weightField" property="weight"/>
+            <textField id="dimLenghtField" property="dim.lenght"/>
+            <textField id="dimWidthField" property="dim.width"/>
+            <textField id="dimHeightField" property="dim.height"/>
+            <textField id="chargeField" property="charge"/>
+            <entityPicker id="wayBillField" property="wayBill">
+                <actions>
+                    <action id="entityLookup" type="entity_lookup"/>
+                    <action id="entityClear" type="entity_clear"/>
+                </actions>
+            </entityPicker>
+        </formLayout>
+        <hbox id="detailActions">
+            <button id="saveAndCloseBtn" action="saveAction"/>
+            <button id="closeBtn" action="closeAction"/>
+        </hbox>
+    </layout>
+</view>

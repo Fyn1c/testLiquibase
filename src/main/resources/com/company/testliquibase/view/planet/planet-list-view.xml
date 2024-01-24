@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      xmlns:c="http://jmix.io/schema/flowui/jpql-condition"
+      title="msg://planetListView.title"
+      focusComponent="planetsDataGrid">
+    <data readOnly="true">
+        <collection id="planetsDc"
+                    class="com.company.testliquibase.entity.Planet">
+            <fetchPlan extends="_base">
+                <property name="atmosphere" fetchPlan="_base"/>
+            </fetchPlan>
+            <loader id="planetsDl">
+                <query>
+                    <![CDATA[select e from st_Planet e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+        <urlQueryParameters>
+            <genericFilter component="genericFilter"/>
+            <pagination component="pagination"/>
+        </urlQueryParameters>
+    </facets>
+    <actions>
+        <action id="selectAction" type="lookup_select"/>
+        <action id="discardAction" type="lookup_discard"/>
+    </actions>
+    <layout>
+        <genericFilter id="genericFilter"
+                       dataLoader="planetsDl">
+            <properties include=".*"/>
+        </genericFilter>
+        <hbox id="buttonsPanel" classNames="buttons-panel">
+            <button id="createBtn" action="planetsDataGrid.create"/>
+            <button id="editBtn" action="planetsDataGrid.edit"/>
+            <button id="removeBtn" action="planetsDataGrid.remove"/>
+            <simplePagination id="pagination" dataLoader="planetsDl"/>
+            <fileStorageUploadField id="uploadPlanets"
+                                    fileStoragePutMode="MANUAL"
+                                    uploadIcon="UPLOAD"/>
+        </hbox>
+        <hbox id="planetHbox" spacing="true" width="100%" expand="planetsDataGrid">
+            <dataGrid id="planetsDataGrid"
+                      width="100%"
+                      minHeight="20em"
+                      dataContainer="planetsDc">
+                <actions>
+                    <action id="create" type="list_create"/>
+                    <action id="edit" type="list_edit"/>
+                    <action id="remove" type="list_remove"/>
+                </actions>
+                <columns>
+                    <column property="name"/>
+                    <column property="mass"/>
+                    <column property="picture"/>
+                    <column property="atmosphere"/>
+                    <column property="semiMajorAxis"/>
+                    <column property="orbitalPeriod"/>
+                    <column property="rings"/>
+                    <column property="rotationPeriod"/>
+                </columns>
+            </dataGrid>
+            <image id="planetPicture"
+                   dataContainer="planetsDc"
+                   property="picture"
+                   width="200px"
+                   height="200px"/>
+
+        </hbox>
+        <hbox id="lookupActions" visible="false">
+            <button id="selectBtn" action="selectAction"/>
+            <button id="discardBtn" action="discardAction"/>
+        </hbox>
+    </layout>
+</view>

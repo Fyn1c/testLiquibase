@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      title="msg://atmosphereDetailView.title"
+      focusComponent="form">
+    <data>
+        <instance id="atmosphereDc"
+                  class="com.company.testliquibase.entity.Atmosphere">
+            <fetchPlan extends="_base">
+                <property name="gases" fetchPlan="_base"/>
+                <property name="planet" fetchPlan="_base"/>
+                <property name="moon" fetchPlan="_base"/>
+            </fetchPlan>
+            <loader/>
+            <collection id="gasesDc" property="gases"/>
+        </instance>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+    </facets>
+    <actions>
+        <action id="saveAction" type="detail_saveClose"/>
+        <action id="closeAction" type="detail_close"/>
+    </actions>
+    <layout>
+        <formLayout id="form" dataContainer="atmosphereDc">
+            <textField id="descriptionField" property="description"/>
+            <textField id="pressureField" property="pressure"/>
+            <entityPicker id="planetField" property="planet">
+                <actions>
+                    <action id="entityLookup" type="entity_lookup"/>
+                    <action id="entityClear" type="entity_clear"/>
+                </actions>
+            </entityPicker>
+            <entityPicker id="moonField" property="moon">
+                <actions>
+                    <action id="entityLookup" type="entity_lookup"/>
+                    <action id="entityClear" type="entity_clear"/>
+                </actions>
+            </entityPicker>
+        </formLayout>
+        <hbox id="buttonsPanel" classNames="buttons-panel">
+            <button action="gasesDataGrid.create"/>
+            <button action="gasesDataGrid.edit"/>
+            <button action="gasesDataGrid.remove"/>
+        </hbox>
+        <dataGrid id="gasesDataGrid" dataContainer="gasesDc" width="100%" minHeight="20em">
+            <actions>
+                <action id="create" type="list_create">
+                    <properties>
+                        <property name="openMode" value="DIALOG"/>
+                    </properties>
+                </action>
+                <action id="edit" type="list_edit">
+                    <properties>
+                        <property name="openMode" value="DIALOG"/>
+                    </properties>
+                </action>
+                <action id="remove" type="list_remove"/>
+            </actions>
+            <columns>
+                <column property="volume"/>
+            </columns>
+        </dataGrid>
+        <hbox id="detailActions">
+            <button id="saveAndCloseBtn" action="saveAction"/>
+            <button id="closeBtn" action="closeAction"/>
+        </hbox>
+    </layout>
+</view>

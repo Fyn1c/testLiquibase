@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      xmlns:c="http://jmix.io/schema/flowui/jpql-condition"
+      title="msg://atmosphereListView.title"
+      focusComponent="atmospheresDataGrid">
+    <data readOnly="true">
+        <collection id="atmospheresDc"
+                    class="com.company.testliquibase.entity.Atmosphere">
+            <fetchPlan extends="_base">
+                <property name="gases" fetchPlan="_base"/>
+                <property name="planet" fetchPlan="_base"/>
+                <property name="moon" fetchPlan="_base"/>
+            </fetchPlan>
+            <loader id="atmospheresDl">
+                <query>
+                    <![CDATA[select e from st_Atmosphere e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+        <urlQueryParameters>
+            <genericFilter component="genericFilter"/>
+            <pagination component="pagination"/>
+        </urlQueryParameters>
+    </facets>
+    <actions>
+        <action id="selectAction" type="lookup_select"/>
+        <action id="discardAction" type="lookup_discard"/>
+    </actions>
+    <layout>
+        <genericFilter id="genericFilter"
+                       dataLoader="atmospheresDl">
+            <properties include=".*"/>
+        </genericFilter>
+        <hbox id="buttonsPanel" classNames="buttons-panel">
+            <button id="createBtn" action="atmospheresDataGrid.create"/>
+            <button id="editBtn" action="atmospheresDataGrid.edit"/>
+            <button id="removeBtn" action="atmospheresDataGrid.remove"/>
+            <simplePagination id="pagination" dataLoader="atmospheresDl"/>
+        </hbox>
+        <dataGrid id="atmospheresDataGrid"
+                  width="100%"
+                  minHeight="20em"
+                  dataContainer="atmospheresDc">
+            <actions>
+                <action id="create" type="list_create"/>
+                <action id="edit" type="list_edit"/>
+                <action id="remove" type="list_remove"/>
+            </actions>
+            <columns>
+                <column property="description"/>
+                <column property="pressure"/>
+                <column property="planet"/>
+                <column property="moon"/>
+            </columns>
+        </dataGrid>
+        <hbox id="lookupActions" visible="false">
+            <button id="selectBtn" action="selectAction"/>
+            <button id="discardBtn" action="discardAction"/>
+        </hbox>
+    </layout>
+</view>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      title="msg://carrierDetailView.title"
+      focusComponent="form">
+    <data>
+        <instance id="carrierDc"
+                  class="com.company.testliquibase.entity.Carrier">
+            <fetchPlan extends="_base">
+                <property name="spacePorts" fetchPlan="_base">
+                    <property name="planet" fetchPlan="_base">
+                        <property name="atmosphere" fetchPlan="_base"/>
+                    </property>
+                    <property name="moon" fetchPlan="_base">
+                        <property name="atmosphere" fetchPlan="_base"/>
+                    </property>
+                    <property name="coordinates" fetchPlan="_base"/>
+                    <property name="carriers" fetchPlan="_base"/>
+                </property>
+            </fetchPlan>
+            <loader/>
+            <collection id="spacePortsDc" property="spacePorts"/>
+        </instance>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+    </facets>
+    <actions>
+        <action id="saveAction" type="detail_saveClose"/>
+        <action id="closeAction" type="detail_close"/>
+    </actions>
+    <layout>
+        <formLayout id="form" dataContainer="carrierDc">
+            <textField id="nameField" property="name"/>
+        </formLayout>
+        <hbox id="buttonsPanel" classNames="buttons-panel">
+            <button action="spacePortsDataGrid.create"/>
+            <button action="spacePortsDataGrid.remove"/>
+        </hbox>
+        <dataGrid id="spacePortsDataGrid" dataContainer="spacePortsDc" width="100%" minHeight="20em">
+            <actions>
+                <action id="create" type="list_create">
+                    <properties>
+                        <property name="openMode" value="DIALOG"/>
+                    </properties>
+                </action>
+                <action id="remove" type="list_remove"/>
+            </actions>
+            <columns>
+                <column property="name"/>
+                <column property="isDefault"/>
+                <column property="planet"/>
+                <column property="moon"/>
+                <column property="coordinates"/>
+            </columns>
+        </dataGrid>
+        <hbox id="detailActions">
+            <button id="saveAndCloseBtn" action="saveAction"/>
+            <button id="closeBtn" action="closeAction"/>
+        </hbox>
+    </layout>
+</view>

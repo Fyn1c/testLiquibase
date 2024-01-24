@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      xmlns:c="http://jmix.io/schema/flowui/jpql-condition"
+      title="msg://wayBillListView.title"
+      focusComponent="wayBillsDataGrid">
+    <data readOnly="true">
+        <collection id="wayBillsDc"
+                    class="com.company.testliquibase.entity.WayBill">
+            <fetchPlan extends="_base">
+                <property name="creator" fetchPlan="_base"/>
+                <property name="shipper" fetchPlan="_base"/>
+                <property name="consignee" fetchPlan="_base"/>
+                <property name="departurePort" fetchPlan="_base"/>
+                <property name="destinationPort" fetchPlan="_base"/>
+                <property name="carrier" fetchPlan="_base"/>
+                <property name="items" fetchPlan="_base"/>
+            </fetchPlan>
+            <loader id="wayBillsDl">
+                <query>
+                    <![CDATA[select e from tlq_WayBill e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+        <urlQueryParameters>
+            <genericFilter component="genericFilter"/>
+            <pagination component="pagination"/>
+        </urlQueryParameters>
+    </facets>
+    <actions>
+        <action id="selectAction" type="lookup_select"/>
+        <action id="discardAction" type="lookup_discard"/>
+    </actions>
+    <layout>
+        <genericFilter id="genericFilter"
+                       dataLoader="wayBillsDl">
+            <properties include=".*"/>
+        </genericFilter>
+        <hbox id="buttonsPanel" classNames="buttons-panel">
+            <button id="createBtn" action="wayBillsDataGrid.create"/>
+            <button id="editBtn" action="wayBillsDataGrid.edit"/>
+            <button id="removeBtn" action="wayBillsDataGrid.remove"/>
+            <simplePagination id="pagination" dataLoader="wayBillsDl"/>
+        </hbox>
+        <dataGrid id="wayBillsDataGrid"
+                  width="100%"
+                  minHeight="20em"
+                  dataContainer="wayBillsDc">
+            <actions>
+                <action id="create" type="list_create"/>
+                <action id="edit" type="list_edit"/>
+                <action id="remove" type="list_remove"/>
+            </actions>
+            <columns>
+                <column property="refernce"/>
+                <column property="creator"/>
+                <column property="shipper"/>
+                <column property="consignee"/>
+                <column property="departurePort"/>
+                <column property="destinationPort"/>
+                <column property="carrier"/>
+                <column property="totalWeight"/>
+                <column property="totalCharge"/>
+            </columns>
+        </dataGrid>
+        <hbox id="lookupActions" visible="false">
+            <button id="selectBtn" action="selectAction"/>
+            <button id="discardBtn" action="discardAction"/>
+        </hbox>
+    </layout>
+</view>

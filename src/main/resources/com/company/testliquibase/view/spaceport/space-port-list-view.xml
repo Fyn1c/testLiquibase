@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      xmlns:c="http://jmix.io/schema/flowui/jpql-condition"
+      title="msg://spacePortListView.title"
+      focusComponent="spacePortsDataGrid">
+    <data readOnly="true">
+        <collection id="spacePortsDc"
+                    class="com.company.testliquibase.entity.SpacePort">
+            <fetchPlan extends="_base">
+                <property name="planet" fetchPlan="_base"/>
+                <property name="moon" fetchPlan="_base"/>
+                <property name="coordinates" fetchPlan="_base"/>
+                <property name="carriers" fetchPlan="_base"/>
+            </fetchPlan>
+            <loader id="spacePortsDl">
+                <query>
+                    <![CDATA[select e from tlq_SpacePort e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+        <urlQueryParameters>
+            <genericFilter component="genericFilter"/>
+            <pagination component="pagination"/>
+        </urlQueryParameters>
+    </facets>
+    <actions>
+        <action id="selectAction" type="lookup_select"/>
+        <action id="discardAction" type="lookup_discard"/>
+    </actions>
+    <layout>
+        <genericFilter id="genericFilter"
+                       dataLoader="spacePortsDl">
+            <properties include=".*"/>
+        </genericFilter>
+        <hbox id="buttonsPanel" classNames="buttons-panel">
+            <button id="createBtn" action="spacePortsDataGrid.create"/>
+            <button id="editBtn" action="spacePortsDataGrid.edit"/>
+            <button id="removeBtn" action="spacePortsDataGrid.remove"/>
+            <simplePagination id="pagination" dataLoader="spacePortsDl"/>
+        </hbox>
+        <dataGrid id="spacePortsDataGrid"
+                  width="100%"
+                  minHeight="20em"
+                  dataContainer="spacePortsDc">
+            <actions>
+                <action id="create" type="list_create"/>
+                <action id="edit" type="list_edit"/>
+                <action id="remove" type="list_remove"/>
+            </actions>
+            <columns>
+                <column property="name"/>
+                <column property="planet"/>
+                <column property="moon"/>
+                <column property="isDefault"/>
+                <column property="coordinates.latitude"/>
+                <column property="coordinates.longitude"/>
+            </columns>
+        </dataGrid>
+        <hbox id="lookupActions" visible="false">
+            <button id="selectBtn" action="selectAction"/>
+            <button id="discardBtn" action="discardAction"/>
+        </hbox>
+    </layout>
+</view>

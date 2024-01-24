@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<menu-config xmlns="http://jmix.io/schema/flowui/menu">
+
+    <menu id="application" title="msg://com.company.testliquibase/menu.application.title" opened="true">
+        <item view="tlq_User.list" title="msg://com.company.testliquibase.view.user/UserListView.title"/>
+        <item view="st_Atmosphere.list"
+              title="msg://com.company.testliquibase.view.atmosphere/atmosphereListView.title"/>
+        <item view="st_AtmosphericGas.list"
+              title="msg://com.company.testliquibase.view.atmosphericgas/atmosphericGasListView.title"/>
+        <item view="st_Carrier.list" title="msg://com.company.testliquibase.view.carrier/carrierListView.title"/>
+        <item view="st_Company.list" title="msg://com.company.testliquibase.view.company/companyListView.title"/>
+        <item view="st_Customer.list" title="msg://com.company.testliquibase.view.customer/customerListView.title"/>
+        <item view="st_Discounts.list" title="msg://com.company.testliquibase.view.discounts/discountsListView.title"/>
+        <item view="st_Gas.list" title="msg://com.company.testliquibase.view.gas/gasListView.title"/>
+        <item view="st_Individual.list"
+              title="msg://com.company.testliquibase.view.individual/individualListView.title"/>
+        <item view="st_Moon.list" title="msg://com.company.testliquibase.view.moon/moonListView.title"/>
+        <item view="st_Planet.list" title="msg://com.company.testliquibase.view.planet/planetListView.title"/>
+        <item view="tlq_SpacePort.list" title="msg://com.company.testliquibase.view.spaceport/spacePortListView.title"/>
+        <item view="tlq_WayBill.list" title="msg://com.company.testliquibase.view.waybill/wayBillListView.title"/>
+        <item view="tlq_WayBillItem.list"
+              title="msg://com.company.testliquibase.view.waybillitem/wayBillItemListView.title"/>
+    </menu>
+
+</menu-config>

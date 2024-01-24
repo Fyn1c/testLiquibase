@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+    <changeSet id="1" author="tlq">
+        <createTable tableName="TLQ_WAY_BILL">
+            <column name="ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_TLQ_WAY_BILL"/>
+            </column>
+            <column name="REFERNCE" type="VARCHAR(255)"/>
+            <column name="CREATOR_ID" type="UUID"/>
+            <column name="SHIPPER_ID" type="UUID"/>
+            <column name="CONSIGNEE_ID" type="UUID"/>
+            <column name="DEPARTURE_PORT_ID" type="UUID"/>
+            <column name="DESTINATION_PORT_ID" type="UUID"/>
+            <column name="CARRIER_ID" type="UUID"/>
+            <column name="TOTAL_WEIGHT" type="DOUBLE"/>
+            <column name="TOTAL_CHARGE" type="DOUBLE"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="2" author="tlq">
+        <createTable tableName="TLQ_WAY_BILL_ITEM">
+            <column name="ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_TLQ_WAY_BILL_ITEM"/>
+            </column>
+            <column name="NAME" type="VARCHAR(255)"/>
+            <column name="NUM" type="INT"/>
+            <column name="WEIGHT" type="DOUBLE"/>
+            <column name="CHARGE" type="DOUBLE"/>
+            <column name="WAY_BILL_ID" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DIMMENSION_LENGHT" type="DOUBLE"/>
+            <column name="DIMMENSION_WIDTH" type="DOUBLE"/>
+            <column name="DIMMENSION_HEIGHT" type="DOUBLE"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="3" author="tlq">
+        <createIndex indexName="IDX_TLQ_WAY_BILL_CARRIER" tableName="TLQ_WAY_BILL">
+            <column name="CARRIER_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="CARRIER_ID" baseTableName="TLQ_WAY_BILL"
+                                 constraintName="FK_TLQ_WAY_BILL_ON_CARRIER" referencedColumnNames="ID"
+                                 referencedTableName="ST_CARRIER"/>
+    </changeSet>
+    <changeSet id="4" author="tlq">
+        <createIndex indexName="IDX_TLQ_WAY_BILL_CONSIGNEE" tableName="TLQ_WAY_BILL">
+            <column name="CONSIGNEE_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="CONSIGNEE_ID" baseTableName="TLQ_WAY_BILL"
+                                 constraintName="FK_TLQ_WAY_BILL_ON_CONSIGNEE" referencedColumnNames="ID"
+                                 referencedTableName="ST_CUSTOMER"/>
+    </changeSet>
+    <changeSet id="5" author="tlq">
+        <createIndex indexName="IDX_TLQ_WAY_BILL_CREATOR" tableName="TLQ_WAY_BILL">
+            <column name="CREATOR_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="CREATOR_ID" baseTableName="TLQ_WAY_BILL"
+                                 constraintName="FK_TLQ_WAY_BILL_ON_CREATOR" referencedColumnNames="ID"
+                                 referencedTableName="TLQ_USER"/>
+    </changeSet>
+    <changeSet id="6" author="tlq">
+        <createIndex indexName="IDX_TLQ_WAY_BILL_DEPARTURE_PORT" tableName="TLQ_WAY_BILL">
+            <column name="DEPARTURE_PORT_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="DEPARTURE_PORT_ID" baseTableName="TLQ_WAY_BILL"
+                                 constraintName="FK_TLQ_WAY_BILL_ON_DEPARTURE_PORT" referencedColumnNames="ID"
+                                 referencedTableName="TLQ_SPACE_PORT"/>
+    </changeSet>
+    <changeSet id="7" author="tlq">
+        <createIndex indexName="IDX_TLQ_WAY_BILL_DESTINATION_PORT" tableName="TLQ_WAY_BILL">
+            <column name="DESTINATION_PORT_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="DESTINATION_PORT_ID" baseTableName="TLQ_WAY_BILL"
+                                 constraintName="FK_TLQ_WAY_BILL_ON_DESTINATION_PORT" referencedColumnNames="ID"
+                                 referencedTableName="TLQ_SPACE_PORT"/>
+    </changeSet>
+    <changeSet id="8" author="tlq">
+        <createIndex indexName="IDX_TLQ_WAY_BILL_ITEM_WAY_BILL" tableName="TLQ_WAY_BILL_ITEM">
+            <column name="WAY_BILL_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="WAY_BILL_ID" baseTableName="TLQ_WAY_BILL_ITEM"
+                                 constraintName="FK_TLQ_WAY_BILL_ITEM_ON_WAY_BILL" onDelete="CASCADE"
+                                 referencedColumnNames="ID" referencedTableName="TLQ_WAY_BILL"/>
+    </changeSet>
+    <changeSet id="9" author="tlq">
+        <createIndex indexName="IDX_TLQ_WAY_BILL_SHIPPER" tableName="TLQ_WAY_BILL">
+            <column name="SHIPPER_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="SHIPPER_ID" baseTableName="TLQ_WAY_BILL"
+                                 constraintName="FK_TLQ_WAY_BILL_ON_SHIPPER" referencedColumnNames="ID"
+                                 referencedTableName="ST_CUSTOMER"/>
+    </changeSet>
+</databaseChangeLog>

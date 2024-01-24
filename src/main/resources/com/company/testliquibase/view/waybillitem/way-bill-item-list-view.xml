@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      xmlns:c="http://jmix.io/schema/flowui/jpql-condition"
+      title="msg://wayBillItemListView.title"
+      focusComponent="wayBillItemsDataGrid">
+    <data readOnly="true">
+        <collection id="wayBillItemsDc"
+                    class="com.company.testliquibase.entity.WayBillItem">
+            <fetchPlan extends="_base">
+                <property name="dim" fetchPlan="_base"/>
+                <property name="wayBill" fetchPlan="_base"/>
+            </fetchPlan>
+            <loader id="wayBillItemsDl">
+                <query>
+                    <![CDATA[select e from tlq_WayBillItem e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+        <urlQueryParameters>
+            <genericFilter component="genericFilter"/>
+            <pagination component="pagination"/>
+        </urlQueryParameters>
+    </facets>
+    <actions>
+        <action id="selectAction" type="lookup_select"/>
+        <action id="discardAction" type="lookup_discard"/>
+    </actions>
+    <layout>
+        <genericFilter id="genericFilter"
+                       dataLoader="wayBillItemsDl">
+            <properties include=".*"/>
+        </genericFilter>
+        <hbox id="buttonsPanel" classNames="buttons-panel">
+            <button id="createBtn" action="wayBillItemsDataGrid.create"/>
+            <button id="editBtn" action="wayBillItemsDataGrid.edit"/>
+            <button id="removeBtn" action="wayBillItemsDataGrid.remove"/>
+            <simplePagination id="pagination" dataLoader="wayBillItemsDl"/>
+        </hbox>
+        <dataGrid id="wayBillItemsDataGrid"
+                  width="100%"
+                  minHeight="20em"
+                  dataContainer="wayBillItemsDc">
+            <actions>
+                <action id="create" type="list_create"/>
+                <action id="edit" type="list_edit"/>
+                <action id="remove" type="list_remove"/>
+            </actions>
+            <columns>
+                <column property="name"/>
+                <column property="num"/>
+                <column property="weight"/>
+                <column property="dim.lenght"/>
+                <column property="dim.width"/>
+                <column property="dim.height"/>
+                <column property="charge"/>
+                <column property="wayBill"/>
+            </columns>
+        </dataGrid>
+        <hbox id="lookupActions" visible="false">
+            <button id="selectBtn" action="selectAction"/>
+            <button id="discardBtn" action="discardAction"/>
+        </hbox>
+    </layout>
+</view>

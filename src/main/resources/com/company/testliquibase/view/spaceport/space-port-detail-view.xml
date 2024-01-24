@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      title="msg://spacePortDetailView.title"
+      focusComponent="form">
+    <data>
+        <instance id="spacePortDc"
+                  class="com.company.testliquibase.entity.SpacePort">
+            <fetchPlan extends="_base">
+                <property name="planet" fetchPlan="_base"/>
+                <property name="moon" fetchPlan="_base"/>
+                <property name="coordinates" fetchPlan="_base"/>
+                <property name="carriers" fetchPlan="_base"/>
+            </fetchPlan>
+            <loader/>
+            <collection id="carriersDc" property="carriers"/>
+        </instance>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+    </facets>
+    <actions>
+        <action id="saveAction" type="detail_saveClose"/>
+        <action id="closeAction" type="detail_close"/>
+    </actions>
+    <layout>
+        <formLayout id="form" dataContainer="spacePortDc">
+            <textField id="nameField" property="name"/>
+            <entityPicker id="planetField" property="planet">
+                <actions>
+                    <action id="entityLookup" type="entity_lookup"/>
+                    <action id="entityClear" type="entity_clear"/>
+                </actions>
+            </entityPicker>
+            <entityPicker id="moonField" property="moon">
+                <actions>
+                    <action id="entityLookup" type="entity_lookup"/>
+                    <action id="entityClear" type="entity_clear"/>
+                </actions>
+            </entityPicker>
+            <checkbox id="isDefaultField" property="isDefault"/>
+            <textField id="coordinatesLatitudeField" property="coordinates.latitude"/>
+            <textField id="coordinatesLongitudeField" property="coordinates.longitude" />
+        </formLayout>
+        <hbox id="buttonsPanel" classNames="buttons-panel">
+            <button action="carriersDataGrid.create"/>
+            <button action="carriersDataGrid.remove"/>
+        </hbox>
+        <dataGrid id="carriersDataGrid" dataContainer="carriersDc" width="100%" minHeight="20em">
+            <actions>
+                <action id="create" type="list_create">
+                    <properties>
+                        <property name="openMode" value="DIALOG"/>
+                    </properties>
+                </action>
+                <action id="remove" type="list_remove"/>
+            </actions>
+            <columns>
+                <column property="name"/>
+            </columns>
+        </dataGrid>
+        <hbox id="detailActions">
+            <button id="saveAndCloseBtn" action="saveAction"/>
+            <button id="closeBtn" action="closeAction"/>
+        </hbox>
+    </layout>
+</view>
