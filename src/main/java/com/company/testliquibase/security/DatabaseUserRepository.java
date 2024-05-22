@@ -2,8 +2,13 @@ package com.company.testliquibase.security;
 
 import com.company.testliquibase.entity.User;
 import io.jmix.securitydata.user.AbstractDatabaseUserRepository;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.AbstractPasswordEncoder;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
@@ -26,6 +31,9 @@ public class DatabaseUserRepository extends AbstractDatabaseUserRepository<User>
     }
 
     @Override
-    protected void initAnonymousUser(final User anonymousUser) {
+    protected void initAnonymousUser(final User anonymousUser) {}
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }

@@ -16,7 +16,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.env.Environment;
-
 import javax.sql.DataSource;
 
 @Push
@@ -53,4 +52,5 @@ public class TestLiquibaseApplication implements AppShellConfigurator {
                 + environment.getProperty("local.server.port")
                 + Strings.nullToEmpty(environment.getProperty("server.servlet.context-path")));
     }
+
 }

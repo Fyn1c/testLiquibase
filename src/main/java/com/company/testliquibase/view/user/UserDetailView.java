@@ -9,6 +9,7 @@ import io.jmix.core.EntityStates;
 import io.jmix.flowui.component.textfield.TypedTextField;
 import io.jmix.flowui.view.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
@@ -35,7 +36,7 @@ public class UserDetailView extends StandardDetailView<User> {
     @Autowired
     private MessageBundle messageBundle;
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    protected PasswordEncoder passwordEncoder;
 
     @Subscribe
     public void onInit(final InitEvent event) {
