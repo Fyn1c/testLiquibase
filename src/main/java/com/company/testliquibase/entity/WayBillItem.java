@@ -42,6 +42,7 @@ public class WayBillItem {
 
     @Column(name = "CHARGE")
     private Double charge;
+
     @OnDeleteInverse(DeletePolicy.CASCADE)
     @JoinColumn(name = "WAY_BILL_ID", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

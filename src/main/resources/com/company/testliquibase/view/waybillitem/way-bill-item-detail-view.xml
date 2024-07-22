@@ -22,12 +22,12 @@
     <layout>
         <formLayout id="form" dataContainer="wayBillItemDc">
             <textField id="nameField" property="name"/>
-            <textField id="numField" property="num"/>
+            <textField id="numField" property="num" enabled="false"/>
             <textField id="weightField" property="weight"/>
             <textField id="dimLenghtField" property="dim.lenght"/>
             <textField id="dimWidthField" property="dim.width"/>
             <textField id="dimHeightField" property="dim.height"/>
-            <textField id="chargeField" property="charge"/>
+            <textField id="chargeField" property="charge" enabled="false"/>
             <entityPicker id="wayBillField" property="wayBill">
                 <actions>
                     <action id="entityLookup" type="entity_lookup"/>

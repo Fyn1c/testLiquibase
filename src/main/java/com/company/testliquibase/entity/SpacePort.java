@@ -45,8 +45,8 @@ public class SpacePort {
     private Coordinates coordinates;
 
     @JoinTable(name = "TLQ_SPACE_PORT_CARRIER_LINK",
-            joinColumns = @JoinColumn(name = "SPACE_PORT_ID"),
-            inverseJoinColumns = @JoinColumn(name = "CARRIER_ID"))
+            joinColumns = @JoinColumn(name = "SPACE_PORT_ID", referencedColumnName = "ID"),
+            inverseJoinColumns = @JoinColumn(name = "CARRIER_ID", referencedColumnName = "ID"))
     @ManyToMany
     private List<Carrier> carriers;
 

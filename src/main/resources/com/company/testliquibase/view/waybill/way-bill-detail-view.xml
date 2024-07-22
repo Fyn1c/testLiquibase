@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <view xmlns="http://jmix.io/schema/flowui/view"
+      xmlns:c="http://jmix.io/schema/flowui/jpql-condition"
       title="msg://wayBillDetailView.title"
-      focusComponent="form">
+      focusComponent="form" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
     <data>
         <instance id="wayBillDc"
                   class="com.company.testliquibase.entity.WayBill">
             <fetchPlan extends="_base">
                 <property name="creator" fetchPlan="_base"/>
-                <property name="shipper" fetchPlan="_base"/>
+                <property name="shipper" fetchPlan="_base" fetch="BATCH"/>
                 <property name="consignee" fetchPlan="_base"/>
                 <property name="departurePort" fetchPlan="_base"/>
                 <property name="destinationPort" fetchPlan="_base"/>
@@ -25,7 +26,6 @@
                 </query>
             </loader>
         </collection>
-
         <collection id="companyDc" class="com.company.testliquibase.entity.Company">
             <fetchPlan extends="_base"/>
             <loader id="companyDl">
@@ -39,6 +39,28 @@
             <loader id="individualDl">
                 <query>
                     <![CDATA[select e from st_Individual e]]>
+                </query>
+            </loader>
+        </collection>
+        <collection id="astronomicalBodyDc" class="com.company.testliquibase.entity.AstronomicalBody">
+            <fetchPlan extends="_base"/>
+            <loader id="astronomicalBodyDl"/>
+        </collection>
+        <collection id="carrierDc" class="com.company.testliquibase.entity.Carrier">
+            <fetchPlan extends="_base">
+                <property name="spacePorts"/>
+            </fetchPlan>
+            <loader id="carrierDl">
+                <query>
+                    <![CDATA[select distinct e from st_Carrier e]]>
+                    <condition>
+                        <and>
+                           <c:jpql>
+                               <c:join>e.spacePorts p</c:join>
+                               <c:where>p in :ports </c:where>
+                           </c:jpql>
+                        </and>
+                    </condition>
                 </query>
             </loader>
         </collection>
@@ -59,40 +81,56 @@
                     <action id="entityClear" type="entity_clear"/>
                 </actions>
             </entityPicker>
-            <entityComboBox id="shipperComboBox" dataContainer="wayBillDc" property="shipper"/>
+            <entityComboBox id="shipperComboBox"
+                            itemsContainer="customerDc"
+                            dataContainer="wayBillDc"
+                            metaClass="st_Customer"
+                            property="shipper"/>
             <radioButtonGroup id="shippersChange"/>
-            <entityPicker id="consigneeField" dataContainer="wayBillDc" property="consignee" >
+            <entityPicker id="consigneeField" dataContainer="wayBillDc" property="consignee">
                 <actions>
-                    <action id="entityLookup" type="entity_lookup" />
+                    <action id="entityLookup" type="entity_lookup"/>
                     <action id="entityClear" type="entity_clear"/>
                 </actions>
             </entityPicker>
-            <radioButtonGroup id="consigneeChange" />
+            <radioButtonGroup id="consigneeChange"/>
+
             <entityPicker id="departurePortField" property="departurePort">
                 <actions>
                     <action id="entityLookup" type="entity_lookup"/>
                     <action id="entityClear" type="entity_clear"/>
                 </actions>
             </entityPicker>
+            <entityComboBox id="departurePoint"
+                            itemsContainer="astronomicalBodyDc"
+                            metaClass="st_AstronomicalBody"
+                            label="msg://DeparturePoint"
+            />
             <entityPicker id="destinationPortField" property="destinationPort">
                 <actions>
                     <action id="entityLookup" type="entity_lookup"/>
                     <action id="entityClear" type="entity_clear"/>
                 </actions>
             </entityPicker>
-            <entityPicker id="carrierField" property="carrier">
-                <actions>
-                    <action id="entityLookup" type="entity_lookup"/>
-                    <action id="entityClear" type="entity_clear"/>
-                </actions>
-            </entityPicker>
-            <textField id="totalWeightField" property="totalWeight"/>
-            <textField id="totalChargeField" property="totalCharge"/>
+            <entityComboBox id="destinationPoint"
+                            itemsContainer="astronomicalBodyDc"
+                            metaClass="st_AstronomicalBody"
+                            label="msg://DestinationPoint"
+            />
+            <entityComboBox id="carrierField"
+                            itemsContainer="carrierDc"
+                            metaClass="st_Carrier"
+                            label="msg://Carrier"/>
+            <textField id="totalWeightField" property="totalWeight" enabled="false"/>
+            <textField id="totalChargeField" property="totalCharge" enabled="false"/>
+
         </formLayout>
         <hbox id="buttonsPanel" classNames="buttons-panel">
             <button action="itemsDataGrid.create"/>
             <button action="itemsDataGrid.edit"/>
-            <button action="itemsDataGrid.remove"/>
+            <button id="removeBtn" action="itemsDataGrid.remove" />
+            <button id="upBtn" action="itemsDataGrid.upAct"/>
+            <button id="downBtn" action="itemsDataGrid.downAct"/>
         </hbox>
         <dataGrid id="itemsDataGrid" dataContainer="itemsDc" width="100%" minHeight="20em">
             <actions>
@@ -107,6 +145,8 @@
                     </properties>
                 </action>
                 <action id="remove" type="list_remove"/>
+                <action id="upAct" text="msg://UP" icon="ARROW_UP" type="list_itemTracking"/>
+                <action id="downAct" text="msg://Down" icon="ARROW_DOWN" type="list_itemTracking"/>
             </actions>
             <columns>
                 <column property="name"/>

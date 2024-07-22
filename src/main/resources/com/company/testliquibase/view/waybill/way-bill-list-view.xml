@@ -8,7 +8,7 @@
                     class="com.company.testliquibase.entity.WayBill">
             <fetchPlan extends="_base">
                 <property name="creator" fetchPlan="_base"/>
-                <property name="shipper" fetchPlan="_base"/>
+                <property name="shipper" fetchPlan="_base" />
                 <property name="consignee" fetchPlan="_base"/>
                 <property name="departurePort" fetchPlan="_base"/>
                 <property name="destinationPort" fetchPlan="_base"/>

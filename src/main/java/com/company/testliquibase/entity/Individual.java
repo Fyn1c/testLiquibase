@@ -17,7 +17,6 @@ import java.util.UUID;
 public class Individual extends Customer {
 
     @Column(name = "FIRSTNAME", nullable = false)
-    @InstanceName
     @NotNull
     private String firstName;
 

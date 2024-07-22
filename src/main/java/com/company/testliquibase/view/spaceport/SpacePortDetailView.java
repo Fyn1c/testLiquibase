@@ -4,7 +4,9 @@ package com.company.testliquibase.view.spaceport;
 import com.company.testliquibase.entity.SpacePort;
 import com.company.testliquibase.services.SpacePortService;
 import com.company.testliquibase.view.main.MainView;
+import com.vaadin.flow.component.AbstractField;
 import com.vaadin.flow.router.Route;
+import io.jmix.flowui.component.checkbox.JmixCheckbox;
 import io.jmix.flowui.kit.action.ActionPerformedEvent;
 import io.jmix.flowui.model.InstanceContainer;
 import io.jmix.flowui.view.*;
@@ -24,7 +26,9 @@ public class SpacePortDetailView extends StandardDetailView<SpacePort> {
     @Subscribe
     protected void onValidation(final ValidationEvent event) {
         spacePortService.checkMoonAndPlanet(spacePortDc.getItem());
-        System.out.println("hi");
     }
+
+
+
 
 }

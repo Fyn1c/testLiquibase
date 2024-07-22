@@ -18,8 +18,7 @@
         <item view="st_Planet.list" title="msg://com.company.testliquibase.view.planet/planetListView.title"/>
         <item view="tlq_SpacePort.list" title="msg://com.company.testliquibase.view.spaceport/spacePortListView.title"/>
         <item view="tlq_WayBill.list" title="msg://com.company.testliquibase.view.waybill/wayBillListView.title"/>
-        <item view="tlq_WayBillItem.list"
-              title="msg://com.company.testliquibase.view.waybillitem/wayBillItemListView.title"/>
+
     </menu>
 
 </menu-config>

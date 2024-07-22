@@ -22,9 +22,10 @@ public class Carrier {
     @NotNull
     @InstanceName
     private String name;
+
     @JoinTable(name = "TLQ_SPACE_PORT_CARRIER_LINK",
-            joinColumns = @JoinColumn(name = "CARRIER_ID"),
-            inverseJoinColumns = @JoinColumn(name = "SPACE_PORT_ID"))
+            joinColumns = @JoinColumn(name = "CARRIER_ID", referencedColumnName = "ID"),
+            inverseJoinColumns = @JoinColumn(name = "SPACE_PORT_ID", referencedColumnName = "ID"))
     @ManyToMany
     private List<SpacePort> spacePorts;
 

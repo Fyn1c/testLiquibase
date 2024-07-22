@@ -28,8 +28,14 @@ public class SpacePortListener {
     @EventListener
     public void onSpacePortChangedBeforeCommit(final EntityChangedEvent<SpacePort> event) {
         Id<SpacePort> entityId = event.getEntityId();
-        SpacePort changedSpacePort = dataManager.load(entityId).one();
+        SpacePort changedSpacePort;
+        try {
+            changedSpacePort = dataManager.load(entityId).one();
+        }catch (Exception e){
+            return;
+        }
         Object obj = changedSpacePort.getPlanet() != null ? changedSpacePort.getPlanet() : changedSpacePort.getMoon();
+        if(changedSpacePort.getIsDefault() == null) return;
         if (obj == null || !changedSpacePort.getIsDefault()) return;
 
         String query = "select e from tlq_SpacePort e " +
